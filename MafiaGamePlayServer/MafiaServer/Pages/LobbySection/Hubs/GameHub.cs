@@ -4,26 +4,25 @@ using System.Threading.Tasks;
 using MafiaServer.Pages.GamePlayLogic;
 using MafiaServer.Pages.LobbySection.Models;
 
-
-public interface IPlayer
-{
-    void OnRoomCreated(string roomid);
-    void OnRoomJoined(string room);
-}
-
 public class GameHub : Hub
 {
     private readonly RoomManager _roomManager;
+    private readonly ILogger<GameHub> _logger;
 
-
-    public GameHub(RoomManager roomManager)
+    public GameHub(RoomManager roomManager,ILogger<GameHub> logger)
     {
         _roomManager = roomManager;
+        _logger = logger;
     }
 
     public async Task<SRRoomBasics> CreateRoom(SRPlayerData playerdata, string type, MatchSetting settings)
     {
-        System.Console.WriteLine($"CreateRoom Executed");
+        // System.Console.WriteLine($"CreateRoom Executed");
+        _logger.LogInformation("CreateRoom Executed LogInformation");
+        _logger.LogError("CreateRoom Executed LogError");
+        _logger.LogDebug("CreateRoom Executed LogDebug");
+        _logger.LogWarning("CreateRoom Executed LogWarning");
+
         Room? room = null;
         if (type is RoomType.Custom)
         {
@@ -49,8 +48,12 @@ public class GameHub : Hub
 
     public async Task<SRRoomBasics> JoinRoom(string roomCode, SRPlayerData playerdata)
     {
-        System.Console.WriteLine($"JoinRoom Executed");
-        System.Console.WriteLine($"playerdataCId " + playerdata.PlayerConnectionId);
+        // System.Console.WriteLine($"JoinRoom Executed");
+        _logger.LogInformation("JoinRoom Executed");
+
+        // System.Console.WriteLine($"playerdataCId " + playerdata.PlayerConnectionId);
+        _logger.LogInformation("playerdataCId " + playerdata.PlayerConnectionId);
+
         Room? room = null;
         room = await _roomManager.JoinRoom(roomCode, playerdata);
 
@@ -74,7 +77,14 @@ public class GameHub : Hub
 
     public async Task<SRRoomBasics> SearchPublicRoom(SRPlayerData srPlayerData, string roomType)
     {
-        System.Console.WriteLine($"SearchPublicRoom Executed");
+        // System.Console.WriteLine($"SearchPublicRoom Executed");
+        _logger.LogInformation("SearchPublicRoom Executed LogInformation");
+        _logger.LogError("SearchPublicRoom Executed LogError");
+        _logger.LogDebug("SearchPublicRoom Executed LogDebug");
+        _logger.LogWarning("SearchPublicRoom Executed LogWarning");
+        
+
+
         // var room = await _roomManager.SearchPublicRoom(srPlayerData, roomType);
 
         // var atestplayer = new SRPlayerData("454", "454", "testConnectioin");
@@ -95,7 +105,9 @@ public class GameHub : Hub
 
     public async Task<SRRoomUpdate?> GetRoomDetails(string roomId)
     {
-        System.Console.WriteLine($"GetRoomDetails Executed");
+        // System.Console.WriteLine($"GetRoomDetails Executed");
+        _logger.LogInformation("GetRoomDetails Executed");
+
         Room? room = null;
         room = _roomManager._runningRooms.FirstOrDefault(r =>
             r.RoomId == roomId && r.CRoomState is RoomState.Waiting);
@@ -119,7 +131,9 @@ public class GameHub : Hub
 
     public async Task<string> GetRoomPlayersDetails(string roomId)
     {
-        System.Console.WriteLine($"GetRoomDetails Executed");
+        // System.Console.WriteLine($"GetRoomDetails Executed");
+        _logger.LogInformation("GetRoomDetails Executed");
+
         Room? room = null;
         room = _roomManager._runningRooms.FirstOrDefault(r =>
             r.RoomId == roomId && r.CRoomState is RoomState.Playing);
@@ -154,7 +168,9 @@ public class GameHub : Hub
         var room = _roomManager._runningRooms.FirstOrDefault(r =>
             r.RoomLivePlayers.ContainsKey(myPlayerdata.PlayerId));
 
-        System.Console.WriteLine($"Found User");
+        // System.Console.WriteLine($"Found User");
+        _logger.LogInformation("Found User");
+
 
         if (room != null)
         {
@@ -218,7 +234,9 @@ public class GameHub : Hub
     public override async Task OnConnectedAsync()
     {
         // Optionally, handle any setup logic when a client connects
-        System.Console.WriteLine($"Client connected: {Context.ConnectionId}");
+        // System.Console.WriteLine($"Client connected: {Context.ConnectionId}");
+        _logger.LogInformation($"Client connected: {Context.ConnectionId}");
+
         await base.OnConnectedAsync();
     }
 
@@ -226,10 +244,14 @@ public class GameHub : Hub
     public override async Task OnDisconnectedAsync(Exception exception)
     {
         // Handle disconnection logic here
-        System.Console.WriteLine($"Client disconnected: {Context.ConnectionId}");
+        // System.Console.WriteLine($"Client disconnected: {Context.ConnectionId}");
+        _logger.LogInformation($"Client disconnected: {Context.ConnectionId}");
+
         if (exception != null)
         {
-            System.Console.WriteLine($"Disconnection error: {exception.Message}");
+            // System.Console.WriteLine($"Disconnection error: {exception.Message}");
+            _logger.LogInformation($"Disconnection error: {exception.Message}");
+
         }
 
         await _roomManager.PlayerDisconnected(Context.ConnectionId);
@@ -252,7 +274,9 @@ public class GameHub : Hub
         var wantedroom = _roomManager._runningRooms.FirstOrDefault(aroom => aroom.RoomId == roomid);
         if (wantedroom != null)
         {
-            System.Console.WriteLine("Player " + playerAction);
+            // System.Console.WriteLine("Player " + playerAction);
+            _logger.LogInformation("Player " + playerAction);
+
             await wantedroom.RoomGameLifeCycle._gameActionsHandler.ActionRecieve(wantedroom, playerAction);
         }
         else
@@ -304,8 +328,13 @@ public class GameHub : Hub
         }
     }
 
-    public async Task DisconnectFullyFromMatch(string roomid, string playerid)
+    // public async Task DisconnectFullyFromMatch(string roomid, string playerid)
+    // {
+    // }
+    
+    public string Ping()
     {
+        return "pong";
     }
 
     // public async Task PlayerIsReady(string roomid, string playerid)

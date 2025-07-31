@@ -1,6 +1,8 @@
 using MafiaServer.Pages;
 using MafiaServer.Pages.GamePlayLogic;
 using MafiaServer.Pages.StartUpServices;
+using Microsoft.Extensions.Logging.AzureAppServices;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<RoomManager>();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .SetIsOriginAllowed(_ => true)
+            .AllowCredentials(); // SignalR needs this
+    });
+});
 
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole(); // 💡 This is what Azure captures
+builder.Logging.AddDebug(); // 💡 This is what Azure captures
+builder.Logging.AddAzureWebAppDiagnostics(); // 💡 This is what Azure captures
+builder.Logging.SetMinimumLevel(LogLevel.Information);
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -22,6 +38,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseRouting();
 
@@ -32,6 +49,7 @@ app.MapRazorPages()
     .WithStaticAssets();
 
 app.MapHub<GameHub>("/GameHub");
+
 // app.MapHub<MafiaGamePlayServer>("/MafiaLobby");GameHub
 
 

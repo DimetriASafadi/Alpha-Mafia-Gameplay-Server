@@ -1,0 +1,7 @@
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\MafiaServer.exe
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\appsettings.Development.json
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\appsettings.json
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\MafiaServer.dll
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\MafiaServer.deps.json
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\MafiaServer.runtimeconfig.json
+C:\Users\Dimetri\AppData\Local\Temp\rider-publish6740664311484602375\MafiaServer.pdb

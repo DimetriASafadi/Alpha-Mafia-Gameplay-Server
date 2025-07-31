@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\UnityProjs\\mafia-game-main\\mafia-game\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj": {}
+    "D:\\SignalRProjects\\Alpha-Mafia-Gameplay-Server\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj": {}
   },
   "projects": {
-    "D:\\UnityProjs\\mafia-game-main\\mafia-game\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj": {
+    "D:\\SignalRProjects\\Alpha-Mafia-Gameplay-Server\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UnityProjs\\mafia-game-main\\mafia-game\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj",
+        "projectUniqueName": "D:\\SignalRProjects\\Alpha-Mafia-Gameplay-Server\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj",
         "projectName": "MafiaServer",
-        "projectPath": "D:\\UnityProjs\\mafia-game-main\\mafia-game\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj",
+        "projectPath": "D:\\SignalRProjects\\Alpha-Mafia-Gameplay-Server\\MafiaGamePlayServer\\MafiaServer\\MafiaServer.csproj",
         "packagesPath": "C:\\Users\\Dimetri\\.nuget\\packages\\",
-        "outputPath": "D:\\UnityProjs\\mafia-game-main\\mafia-game\\MafiaGamePlayServer\\MafiaServer\\obj\\",
+        "outputPath": "D:\\SignalRProjects\\Alpha-Mafia-Gameplay-Server\\MafiaGamePlayServer\\MafiaServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dimetri\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,16 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.Azure.SignalR": {
+              "target": "Package",
+              "version": "[1.30.3, )"
+            },
+            "Microsoft.Extensions.Logging.AzureAppServices": {
+              "target": "Package",
+              "version": "[10.0.0-preview.6.25358.103, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

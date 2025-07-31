@@ -9,6 +9,7 @@ public class GameResultHandler
     private GameActionsHandler _gameActionsHandler;
     private Room _room;
 
+
     public GameResultHandler(IHubContext<GameHub> hubContext, GameActionsHandler gameActionsHandler, Room room)
     {
         _hubContext = hubContext;
