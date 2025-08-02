@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using MafiaServer.Pages.LobbySection.Models;
 using Microsoft.AspNetCore.SignalR;
 
@@ -31,6 +32,7 @@ public class GameLifeCycle
 
 
     private Room _room;
+    private Stopwatch _stopwatch = new Stopwatch();
 
     public GameLifeCycle(Room selfRoom, IHubContext<GameHub> hubContext)
     {
@@ -102,6 +104,7 @@ public class GameLifeCycle
     private async Task StartDayTimer()
     {
         await _sendDataHandler.ToClientsSendChangeTime(_room.RoomId,_room.Settings.SettingDayTimer, ActionStep.DayVotingTime_1);
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -122,10 +125,12 @@ public class GameLifeCycle
         {
             Console.WriteLine("Day Timer was canceled.");
         }
+        _stopwatch.Stop();
     }
     private async Task ViewDayResult()
     {
         await _sendDataHandler.ToClientsSendChangeTime(_room.RoomId,_room.Settings.SettingDayTimer, ActionStep.DayVotingResult_2);
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -205,6 +210,7 @@ public class GameLifeCycle
         {
             // Console.WriteLine("Night Timer was canceled.");
         }
+        _stopwatch.Stop();
         EliminatePlayersCheck();
         await MafiaBossDeathCheck();
         await _gameActionsHandler.UpdatePlayersDetails();
@@ -219,6 +225,7 @@ public class GameLifeCycle
         await MafiaBossDeathCheck();
         ClearJokerAbilityBlock();
         _room.RoomDataCenter.EventsToShow.Clear();
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -230,6 +237,7 @@ public class GameLifeCycle
         {
             // Console.WriteLine("Night Timer was canceled.");
         }
+        _stopwatch.Stop();
         _room.RoomDataCenter.DayOrNight = DayNight.Night;
         await _gameActionsHandler.UpdatePlayersDetails();
     }
@@ -240,6 +248,7 @@ public class GameLifeCycle
         RefreshBotsDecision();
         ClearMutes();
         _room.RoomDataCenter.EventsToShow.Clear();
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -255,6 +264,7 @@ public class GameLifeCycle
         {
             // Console.WriteLine("Night Timer was canceled.");
         }
+        _stopwatch.Stop();
     }
 
     private async Task ViewNightResult()
@@ -266,6 +276,7 @@ public class GameLifeCycle
         //     
         // }
         RefreshBotsDecision();
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -279,6 +290,7 @@ public class GameLifeCycle
         {
             // Console.WriteLine("Night Timer was canceled.");
         }
+        _stopwatch.Stop();
         EliminatePlayersCheck();
         await MafiaBossDeathCheck();
         await _gameActionsHandler.UpdatePlayersDetails();
@@ -295,6 +307,7 @@ public class GameLifeCycle
         ClearJokerAbilityBlock();
         _room.RoomDataCenter.EventsToShow.Clear();
         await _sendDataHandler.ToClientsSendChangeTime(_room.RoomId,7000, ActionStep.NightToDayChange_6);
+        _stopwatch.Restart();
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         try
@@ -307,6 +320,7 @@ public class GameLifeCycle
         {
             // Console.WriteLine("Night Timer was canceled.");
         }
+        _stopwatch.Stop();
         _room.RoomDataCenter.CurrentDayCount++;
         _room.RoomDataCenter.DayCount++;
         _room.RoomDataCenter.DayOrNight = DayNight.Day;
